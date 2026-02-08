@@ -1,0 +1,6 @@
+@TMSRestApi_HostAddress = http://localhost:5181
+
+GET {{TMSRestApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
