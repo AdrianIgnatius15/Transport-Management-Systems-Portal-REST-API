@@ -1,7 +1,7 @@
 
 using System.ComponentModel.DataAnnotations;
 
-namespace Models
+namespace Transport_Management_Systems_Portal_REST_API.Models
 {
     public class User
     {
