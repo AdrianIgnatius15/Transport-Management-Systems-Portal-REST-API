@@ -1,0 +1,15 @@
+services:
+  graphhopper:
+    image: israelhikingmap/graphhopper:latest
+    container_name: graphhopper
+    ports:
+      - "8989:8989"
+    volumes:
+      - ./graphhopper_data:/data
+    environment:
+      # Increased memory for the import process
+      - JAVA_OPTS=-Xmx4g -Xms4g
+    command: >
+      --url https://download.geofabrik.de/north-america/us/california/socal-latest.osm.pbf
+      --host 0.0.0.0
+    restart: always
