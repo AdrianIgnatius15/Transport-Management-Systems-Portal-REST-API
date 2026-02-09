@@ -1,26 +1,29 @@
-public static class MapperUtility
+namespace Transport_Management_Systems_Portal_REST_API.Utilities
 {
-    public static TDestination Map<TSource, TDestination>(TSource source)
-        where TDestination : new()
+    public static class MapperUtility
     {
-        if (source == null)
+        public static TDestination Map<TSource, TDestination>(TSource source)
+            where TDestination : new()
         {
-            throw new ArgumentNullException(nameof(source));
-        }
-
-        TDestination destination = new TDestination();
-        var sourceProperties = typeof(TSource).GetProperties();
-        var destinationProperties = typeof(TDestination).GetProperties();
-
-        foreach (var sourceProp in sourceProperties)
-        {
-            var destProp = destinationProperties.FirstOrDefault(p => p.Name == sourceProp.Name && p.PropertyType == sourceProp.PropertyType);
-            if (destProp != null && destProp.CanWrite)
+            if (source == null)
             {
-                destProp.SetValue(destination, sourceProp.GetValue(source));
+                throw new ArgumentNullException(nameof(source));
             }
-        }
 
-        return destination;
+            TDestination destination = new TDestination();
+            var sourceProperties = typeof(TSource).GetProperties();
+            var destinationProperties = typeof(TDestination).GetProperties();
+
+            foreach (var sourceProp in sourceProperties)
+            {
+                var destProp = destinationProperties.FirstOrDefault(p => p.Name == sourceProp.Name && p.PropertyType == sourceProp.PropertyType);
+                if (destProp != null && destProp.CanWrite)
+                {
+                    destProp.SetValue(destination, sourceProp.GetValue(source));
+                }
+            }
+
+            return destination;
+        }
     }
 }
