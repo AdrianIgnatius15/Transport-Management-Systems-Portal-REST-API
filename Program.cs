@@ -1,8 +1,16 @@
+using Microsoft.EntityFrameworkCore;
+using Transport_Management_Systems_Portal_REST_API.Data;
+using Transport_Management_Systems_Portal_REST_API.Data.Interfaces;
+using Transport_Management_Systems_Portal_REST_API.Data.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+builder.Services.AddDbContext<TMSDbContext>(options => options.UseMySql(builder.Configuration.GetConnectionString("BaseConnection"), new MySqlServerVersion(new Version(8, 0, 0))));
+
+builder.Services.AddScoped<IAuthenticationRepo, AuthenticationRepo>();
 
 var app = builder.Build();
 
@@ -12,30 +20,4 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
-
-app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
