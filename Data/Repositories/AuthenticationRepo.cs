@@ -18,9 +18,9 @@ namespace Transport_Management_Systems_Portal_REST_API.Data.Repositories
             await _dbContext.Users.AddAsync(user);
         }
 
-        public async Task<User?> GetUserAsync(string email, string password)
+        public async Task<User?> GetUserAsync(string email)
         {
-            var searchedResult = await _dbContext.Users.FirstOrDefaultAsync(user => user.Email == email && user.Password == password);
+            var searchedResult = await _dbContext.Users.FirstOrDefaultAsync(user => user.Email == email);
 
             return searchedResult;
         }
