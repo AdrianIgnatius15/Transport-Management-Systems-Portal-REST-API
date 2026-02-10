@@ -7,7 +7,7 @@ namespace Transport_Management_Systems_Portal_REST_API.Models
     {
         [Key]
         [DataType(DataType.Text)]
-        public string id { get; set; } = string.Empty;
+        public Guid id { get; set; } = Guid.NewGuid();
 
         [Required]
         public string FullName { get; set; } = string.Empty;
