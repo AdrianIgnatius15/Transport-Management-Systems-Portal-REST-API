@@ -21,9 +21,9 @@ namespace Transport_Management_Systems_Portal_REST_API.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<UserReadDto>> Login(LoginRequest loginRequest)
         {
-            var searchedUser = await _authenticationRepo.GetUserAsync(loginRequest.Email, loginRequest.Password);
+            var searchedUser = await _authenticationRepo.GetUserAsync(loginRequest.Email);
 
-            if (searchedUser == null)
+            if (searchedUser == null || !PasswordHashingUtility.VerifyPassword(loginRequest.Password, searchedUser.Password))
             {
                 return BadRequest($"--> Login failed due to invalid credentials or account do not exists!");
             }
@@ -34,6 +34,22 @@ namespace Transport_Management_Systems_Portal_REST_API.Controllers
                 return Ok(userReadDto);
             }
 
+        }
+
+        [HttpPost("register", Name = "Register")]
+        public async Task<ActionResult<UserReadDto>> Register(RegisterRequest registerRequest)
+        {
+            var user = new User
+            {
+                Email = registerRequest.Email,
+                Password = PasswordHashingUtility.HashPassword(registerRequest.Password)
+            };
+
+            await _authenticationRepo.CreateUserAsync(user);
+            await _authenticationRepo.SaveChangesAsync();
+
+            var userReadDto = MapperUtility.Map<User, UserReadDto>(user);
+            return CreatedAtRoute(nameof(Register), userReadDto);
         }
     }
 }
