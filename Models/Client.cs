@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Transport_Management_System_Portal_REST_API.Models
+namespace Transport_Management_Systems_Portal_REST_API.Models
 {
     public class Client
     {
