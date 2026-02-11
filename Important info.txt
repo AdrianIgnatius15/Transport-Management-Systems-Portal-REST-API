@@ -1,0 +1,3 @@
+### Coordinates for testing
+1. 426, Bucknell Rd: 33.664739, -117.917458
+2. Christ Cathedral: 33.787942, -117.89886
